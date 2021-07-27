@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import NotesList from "./components/NotesList";
 import Note from "./components/Note";
+import Search from "./components/Search";
 
 export default function App() {
   const [notes, setNotes] = useState([
@@ -22,6 +23,8 @@ export default function App() {
     },
   ]);
 
+  const [searchText, setSearchText] = useState("");
+
   const addNote = (text) => {
     const date = new Date();
     const newNote = {
@@ -40,8 +43,11 @@ export default function App() {
 
   return (
     <div className="container">
+      <Search handleSearchNote={setSearchText} />
       <NotesList
-        notes={notes}
+        notes={notes.filter((note) =>
+          note.text.toLocaleLowerCase().includes(searchText)
+        )}
         handleAddNote={addNote}
         handleDeleteNote={deleteNote}
       />
